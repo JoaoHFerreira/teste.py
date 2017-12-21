@@ -39,12 +39,31 @@ def cabec(val1,val2):#hora de início do colaborador, hh/mm
             val2=str(val2)
         return val1, val2
 
+def valida(hin,miin,hfin,mfin):
+    Ttotal=((hfin*60)+mfin)-((hin*60)+miin)#tempo total
+    TmDia=(12*60)-((hin*60)+miin)#quanto até meio dia
+    Trest=Ttotal-TmDia#quanto tempo sobrou e sera somado a 13:30
+    hfin=Trest//60
+    mfin=Trest-(hfin*60)
+    hfin,mfin=hfin+13,mfin+30#adiciona 13hr e 30min
+    if mfin>59:
+        hfin=hfin+1
+        mfin=mfin-60
+    return hin,miin,hfin,mfin
+
+
 def fill(f,hin,miin,hfin,mfin,av):#arquivo, hh/mm iniciais, hh/mm finais, comentarios
     if hin<=12 and hfin>=12 and mfin>0:
+        hin,miin,hfin,mfin=valida(hin,miin,hfin,mfin)
+        hfin,mfin=cabec(hfin,mfin)
+        hin,miin=cabec(hin,miin)
+        f.write(hin+miin+" - "+"12:00"+" -- "+av+"\n")
+        f.write("13:30"+" - "+hfin+mfin+" -- "+av+"\n")
         exit()
-    hfin,mfin=cabec(hfin,mfin)
-    hin,miin=cabec(hin,miin)
-    f.write(hin+miin+" - "+hfin+mfin+" -- "+av+"\n")
+    else:
+        hfin,mfin=cabec(hfin,mfin)
+        hin,miin=cabec(hin,miin)
+        f.write(hin+miin+" - "+hfin+mfin+" -- "+av+"\n")
 
 def Apont(f,val1,val2): #arquivo,hr, min --realizado apontamento
     op=0#definido como 0 para entrada no loop
