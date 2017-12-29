@@ -41,7 +41,7 @@ def cabec(val1,val2):#hora de início do colaborador, hh/mm
 
 def valida(hin,miin,hfin,mfin):
     Ttotal=((hfin*60)+mfin)-((hin*60)+miin)#tempo total
-    TmDia=(12*60)-((hin*60)+miin)#quanto até meio dia
+    TmDia=((11*60)+59)-((hin*60)+miin)#quanto até meio dia
     Trest=Ttotal-TmDia#quanto tempo sobrou e sera somado a 13:30
     hfin=Trest//60
     mfin=Trest-(hfin*60)
@@ -53,13 +53,12 @@ def valida(hin,miin,hfin,mfin):
 
 
 def fill(f,hin,miin,hfin,mfin,av):#arquivo, hh/mm iniciais, hh/mm finais, comentarios
-    if hin<=12 and hfin>=12 and mfin>0:
+    if  hin<=12 and hfin>=12 and mfin>0:
         hin,miin,hfin,mfin=valida(hin,miin,hfin,mfin)
         hfin,mfin=cabec(hfin,mfin)
         hin,miin=cabec(hin,miin)
-        f.write(hin+miin+" - "+"12:00"+" -- "+av+"\n")
+        f.write(hin+miin+" - "+"11:59"+" -- "+av+"\n")
         f.write("13:30"+" - "+hfin+mfin+" -- "+av+"\n")
-        exit()
     else:
         hfin,mfin=cabec(hfin,mfin)
         hin,miin=cabec(hin,miin)
